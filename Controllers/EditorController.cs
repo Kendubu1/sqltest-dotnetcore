@@ -34,11 +34,11 @@ namespace CloudQuery.Controllers
             var conn = Newtonsoft.Json.JsonConvert.DeserializeObject<CloudQuery.Models.DBConnection>(connections); 
             if ( conn.DBName.StartsWith("#") )
                 PopulateConnectionDataFromMount(conn);          
-            string connectionString = string.Format("Server=tcp:{0}.database.windows.net,1433;Database={1};Uid={2}@{0};Pwd={3};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;", conn.DBServer, conn.DBName, conn.Username, conn.Password);
+            string connectionString = string.Format("Server=tcp:{0};Database={1};Uid={2}@{0};Pwd={3};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;", conn.DBServer, conn.DBName, conn.Username, conn.Password);
             if ( isMSI )
-               connectionString = string.Format("Server=tcp:{0}.database.windows.net,1433;Database={1};Uid={2}@{0};Authentication=ActiveDirectoryMsi;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30", conn.DBServer, conn.DBName, conn.Username);
+               connectionString = string.Format("Server=tcp:{0};Database={1};Uid={2}@{0};Authentication=ActiveDirectoryMsi;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30", conn.DBServer, conn.DBName, conn.Username);
             if ( isMSI && isAE )
-               connectionString = string.Format("Server=tcp:{0}.database.windows.net,1433;Database={1};Uid={2};Authentication=ActiveDirectoryMsi;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;ColumnEncryption=Enabled;KeyStoreAuthentication=KeyVaultManagedIdentity;KeyStorePrincipalId={2}", conn.DBServer, conn.DBName, conn.Username);
+               connectionString = string.Format("Server=tcp:{0};Database={1};Uid={2};Authentication=ActiveDirectoryMsi;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;ColumnEncryption=Enabled;KeyStoreAuthentication=KeyVaultManagedIdentity;KeyStorePrincipalId={2}", conn.DBServer, conn.DBName, conn.Username);
             
             connectionString = "Driver={ODBC Driver 17 for SQL Server};" + connectionString;
             Console.WriteLine($"ConnectionString: {connectionString}");
